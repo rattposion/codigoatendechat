@@ -161,6 +161,16 @@ const App = () => {
                         fontWeight: 700
                     }
                 },
+                MuiTableRow: {
+                    root: {
+                        transition: "background-color 0.15s ease",
+                        "&:hover td": {
+                            backgroundColor: mode === "light"
+                                ? "rgba(104,46,227,0.03)"
+                                : "rgba(124,77,255,0.12)"
+                        }
+                    }
+                },
                 MuiCssBaseline: {
                     "@global": {
                         ".focus-visible:focus": {
