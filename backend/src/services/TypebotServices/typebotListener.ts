@@ -1,4 +1,4 @@
-import axios from "axios";
+import axios, { AxiosRequestConfig, Method } from "axios";
 import Ticket from "../../models/Ticket";
 import QueueIntegrations from "../../models/QueueIntegrations";
 import { WASocket, delay, proto } from "@whiskeysockets/baileys";
@@ -58,8 +58,8 @@ const typebotListener = async ({
                 },
             });
 
-            const config = {
-                method: 'post',
+            const config: AxiosRequestConfig = {
+                method: 'post' as Method,
                 maxBodyLength: Infinity,
                 url: `${url}/api/v1/typebots/${typebotSlug}/startChat`,
                 headers: {
@@ -126,8 +126,8 @@ const typebotListener = async ({
                     "message": body
                 });
 
-                let config = {
-                    method: 'post',
+                let config: AxiosRequestConfig = {
+                    method: 'post' as Method,
                     maxBodyLength: Infinity,
                     url: `${url}/api/v1/sessions/${sessionId}/continueChat`,
                     headers: {
