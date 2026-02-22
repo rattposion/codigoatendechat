@@ -1,19 +1,9 @@
 import * as Sentry from "@sentry/node";
-import baileys, {
-  WASocket,
-  Browsers,
-  DisconnectReason,
-  fetchLatestBaileysVersion,
-  makeCacheableSignalKeyStore,
-  isJidBroadcast,
-  CacheStore
-} from "@whiskeysockets/baileys";
-import makeWALegacySocket from "@whiskeysockets/baileys";
+import type { WASocket } from "@whiskeysockets/baileys";
 import P from "pino";
 
 import Whatsapp from "../models/Whatsapp";
 import { logger } from "../utils/logger";
-import MAIN_LOGGER from "@whiskeysockets/baileys/lib/Utils/logger";
 import authState from "../helpers/authState";
 import { Boom } from "@hapi/boom";
 import AppError from "../errors/AppError";
@@ -23,7 +13,8 @@ import { StartWhatsAppSession } from "../services/WbotServices/StartWhatsAppSess
 import DeleteBaileysService from "../services/BaileysServices/DeleteBaileysService";
 import NodeCache from 'node-cache';
 
-const loggerBaileys = MAIN_LOGGER.child({});
+const rootLogger = P();
+const loggerBaileys = rootLogger.child({});
 loggerBaileys.level = "error";
 
 type Session = WASocket & {
@@ -68,6 +59,15 @@ export const initWASocket = async (whatsapp: Whatsapp): Promise<Session> => {
     try {
       (async () => {
         const io = getIO();
+        const baileys: any = await import("@whiskeysockets/baileys");
+        const {
+          default: makeWASocket,
+          Browsers,
+          DisconnectReason,
+          fetchLatestBaileysVersion,
+          makeCacheableSignalKeyStore,
+          isJidBroadcast
+        } = baileys;
 
         const whatsappUpdate = await Whatsapp.findOne({
           where: { id: whatsapp.id }
@@ -94,9 +94,8 @@ export const initWASocket = async (whatsapp: Whatsapp): Promise<Session> => {
         const { state, saveState } = await authState(whatsapp);
 
         const msgRetryCounterCache = new NodeCache();
-        const userDevicesCache: CacheStore = new NodeCache();
+        const userDevicesCache: any = new NodeCache();
 
-        const makeWASocket = (baileys as any).default;
         wsocket = makeWASocket({
           logger: loggerBaileys,
           printQRInTerminal: false,

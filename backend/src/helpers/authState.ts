@@ -3,7 +3,6 @@ import type {
   AuthenticationState,
   SignalDataTypeMap
 } from "@whiskeysockets/baileys";
-import { BufferJSON, initAuthCreds, proto } from "@whiskeysockets/baileys";
 import Whatsapp from "../models/Whatsapp";
 
 const KEY_MAP: { [T in keyof SignalDataTypeMap]: string } = {
@@ -22,6 +21,7 @@ const KEY_MAP: { [T in keyof SignalDataTypeMap]: string } = {
 const authState = async (
   whatsapp: Whatsapp
 ): Promise<{ state: AuthenticationState; saveState: () => void }> => {
+  const { BufferJSON, initAuthCreds, proto } = await import("@whiskeysockets/baileys");
   let creds: AuthenticationCreds;
   let keys: any = {};
 
