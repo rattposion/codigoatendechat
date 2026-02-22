@@ -4,6 +4,11 @@ import { ToastContainer } from "react-toastify";
 
 import LoggedInLayout from "../layout";
 import LoadingSpinner from "../components/LoadingSpinner";
+import { AuthProvider } from "../context/Auth/AuthContext";
+import { TicketsContextProvider } from "../context/Tickets/TicketsContext";
+import { WhatsAppsProvider } from "../context/WhatsApp/WhatsAppsContext";
+import Route from "./Route";
+
 const Dashboard = lazy(() => import("../pages/Dashboard/"));
 const TicketResponsiveContainer = lazy(() => import("../pages/TicketResponsiveContainer"));
 const Signup = lazy(() => import("../pages/Signup/"));
@@ -21,10 +26,6 @@ const ContactLists = lazy(() => import("../pages/ContactLists/"));
 const ContactListItems = lazy(() => import("../pages/ContactListItems/"));
 const QuickMessages = lazy(() => import("../pages/QuickMessages/"));
 const Kanban = lazy(() => import("../pages/Kanban"));
-import { AuthProvider } from "../context/Auth/AuthContext";
-import { TicketsContextProvider } from "../context/Tickets/TicketsContext";
-import { WhatsAppsProvider } from "../context/WhatsApp/WhatsAppsContext";
-import Route from "./Route";
 const Schedules = lazy(() => import("../pages/Schedules"));
 const Campaigns = lazy(() => import("../pages/Campaigns"));
 const CampaignsConfig = lazy(() => import("../pages/CampaignsConfig"));
