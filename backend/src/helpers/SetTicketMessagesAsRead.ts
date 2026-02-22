@@ -28,8 +28,9 @@ const SetTicketMessagesAsRead = async (ticket: Ticket): Promise<void> => {
       );
 
       if (lastMessages.key && lastMessages.key.fromMe === false) {
+        const minimal = { key: lastMessages.key };
         await (wbot as WASocket).chatModify(
-          { markRead: true, lastMessages: [lastMessages] },
+          { markRead: true, lastMessages: [minimal] },
           `${ticket.contact.number}@${
             ticket.isGroup ? "g.us" : "s.whatsapp.net"
           }`

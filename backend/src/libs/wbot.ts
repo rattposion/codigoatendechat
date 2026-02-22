@@ -1,11 +1,10 @@
 import * as Sentry from "@sentry/node";
-import makeWASocket, {
+import baileys, {
   WASocket,
   Browsers,
   DisconnectReason,
   fetchLatestBaileysVersion,
   makeCacheableSignalKeyStore,
-  makeInMemoryStore,
   isJidBroadcast,
   CacheStore
 } from "@whiskeysockets/baileys";
@@ -87,6 +86,7 @@ export const initWASocket = async (whatsapp: Whatsapp): Promise<Session> => {
         let retriesQrCode = 0;
 
         let wsocket: Session = null;
+        const { makeInMemoryStore } = baileys as any;
         const store = makeInMemoryStore({
           logger: loggerBaileys
         });
@@ -96,6 +96,7 @@ export const initWASocket = async (whatsapp: Whatsapp): Promise<Session> => {
         const msgRetryCounterCache = new NodeCache();
         const userDevicesCache: CacheStore = new NodeCache();
 
+        const makeWASocket = (baileys as any).default;
         wsocket = makeWASocket({
           logger: loggerBaileys,
           printQRInTerminal: false,
